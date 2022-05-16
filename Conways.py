@@ -8,7 +8,7 @@ pygame.init()
 class conways:
     def __init__(self, size = 100, max_it = 100):
         self.max_it = max_it
-        screen_size = width, height = 1024, 1024
+        screen_size = (1024, 1024)
         self.liveCellColor = (255, 255, 255)
         self.deadCellColor = (25, 25, 25)
         self.screen = pygame.display.set_mode(screen_size)
@@ -22,7 +22,11 @@ class conways:
         self.square_off = int(screen_size[0]/(self.x_size-2))
 
         self.buff_1 = np.random.choice(a = [False, True, True], size = (self.x_size, self.y_size))
-        self.buff_2 = np.zeros(shape=(self.x_size, self.y_size), dtype=bool)
+        for y, e in enumerate(self.buff_1):
+            for x, val in enumerate(e):
+                if (y == 0 or x == 0 or x == self.x_bound or y == self.y_bound):
+                    self.buff_1[y, x] = False
+        self.buff_2 = np.copy(self.buff_1)
 
         
 
@@ -36,22 +40,24 @@ class conways:
     def reset(self, a):
         self.moves = 0
         self.buff_1 = a
+
         self.buff[0] = self.buff_1
         self.buff[1] = self.buff_2
+        for y in range(1, self.y_bound):
+            for x in range(1, self.x_bound):
+                if self.buff_1[y, x]:
+                    self.moves += 1
         for y, e in enumerate(self.buff_1):
             for x, val in enumerate(e):
                 if (y == 0 or x == 0 or x == self.x_bound or y == self.y_bound):
                     self.buff_1[y, x] = False
-        for y in range(1, self.y_bound):
-            for x in range(1, self.x_bound):
-                if a[y, x]:
-                    self.moves += 1
+        self.buff_2 = np.copy(self.buff_1)
 
 
     def run(self):
-        self.screen.fill(self.deadCellColor)
         for i in range(self.max_it):
             changed = False
+            self.screen.fill(self.deadCellColor)
 
             for y in range(1, self.y_bound):
                 for x in range(1, self.x_bound):
@@ -85,8 +91,8 @@ class conways:
                     count < 2 or count > 3):
                         self.buff[1][y, x] = False
                         changed = True
-                        self.screen.fill(self.deadCellColor, 
-                        rect=(self.square_off*(y-1), self.square_off*(x-1), self.square_off, self.square_off))
+                        #self.screen.fill(self.deadCellColor, 
+                        #rect=(self.square_off*(y-1), self.square_off*(x-1), self.square_off, self.square_off))
 
             pygame.display.flip()
             if (self.buff[0] is self.buff_1):
@@ -111,14 +117,24 @@ class conways:
                 if alive:
                     return float('inf')
                 else:
+                    print(i)
                     return i**2 - self.moves
         return self.max_it**2 - self.moves
 
 
 
 
-test = conways()
+test = conways(size = 512, max_it=1000)
 print(test.run())
 
-test.reset(np.random.choice(a = [False, False,False,False,False,False,False,True], size = (102, 102)))
+x = np.zeros(shape=(514, 514), dtype=bool)
+x[10, 10] = True
+x[10, 11] = True
+x[11, 10] = True
+x[11, 11] = True
+
+#test.reset(np.random.choice(a = [False for i in range(10)]+[True], size = (514, 514)))
+#print(test.run())
+
+test.reset(x)
 print(test.run())
