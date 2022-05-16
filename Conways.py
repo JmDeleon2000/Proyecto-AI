@@ -19,8 +19,9 @@ class conways:
 
         self.square_off = int(screen_size[0]/(self.x_size-2))
 
-        self.buff_1 = np.random.choice(a = [False, False, False, False, False, True, True], 
-        size = (self.x_size, self.y_size))
+        self.buff_1 = np.random.choice(
+            a = [False, False, False, False, False, True, True], 
+            size = (self.x_size, self.y_size))
         self.buff_2 = np.copy(self.buff_1)
 
         self.buff = []
@@ -86,9 +87,10 @@ class conways:
                         self.buff[1][y, x] = False
                         changed = True
                     if self.buff[0][y, x]:
-                        self.screen.fill(self.liveCellColor, 
-                        rect=(self.square_off*(y-1), self.square_off*(x-1), 
-                        self.square_off, self.square_off))
+                        self.screen.fill(
+                            self.liveCellColor, 
+                            rect=(self.square_off*(y-1), self.square_off*(x-1), 
+                            self.square_off, self.square_off))
 
 
 
