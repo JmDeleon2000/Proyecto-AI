@@ -124,10 +124,19 @@ class conways:
 
 
 
-test = conways(size = 510, max_it=1000)
+test = conways(size = 512, max_it=1000)
 print(test.run())
 
-x = np.zeros(shape=(512, 512), dtype=bool)
+x = np.zeros(shape=(514, 514), dtype=bool)
+x[100, 100] = True
+x[100, 101] = True
+x[101, 100] = True
+x[101, 101] = False
+
+
+test.reset(x)
+print(test.run())
+
 x[100, 100] = True
 x[100, 101] = True
 x[101, 100] = True
