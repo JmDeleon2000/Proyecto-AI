@@ -11,6 +11,7 @@ class conways:
         self.liveCellColor = (255, 255, 255)
         self.deadCellColor = (25, 25, 25)
         self.screen = pygame.display.set_mode(screen_size)
+        self.render = False
 
         self.x_size = size+2
         self.y_size = size+2
@@ -101,16 +102,17 @@ class conways:
                     if (self.buff[0][y, x] and count < 2 or count > 3):
                         self.buff[1][y, x] = False
                         changed = True
-                    if self.buff[0][y, x]:
-                        self.screen.fill(
-                            self.liveCellColor, 
-                            rect=(self.square_off*(y-1), self.square_off*(x-1), 
-                            self.square_off, self.square_off))
+                    if self.render:
+                        if self.buff[0][y, x]:
+                            self.screen.fill(
+                                self.liveCellColor, 
+                                rect=(self.square_off*(y-1), self.square_off*(x-1), 
+                                self.square_off, self.square_off))
 
 
 
-            
-            pygame.display.flip()
+            if self.render:
+                pygame.display.flip()
             #time.sleep(1)
             if (self.buff[0] is self.buff_1):
                 self.buff[0] = self.buff_2
@@ -133,8 +135,8 @@ class conways:
                 if alive:
                     return float('inf')
                 else:
-                    return i**2 + self.moves
-        return  self.max_it**2 + self.moves
+                    return i**2 #+ self.moves
+        return  self.max_it**2 #+ self.moves
 
 
 
