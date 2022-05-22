@@ -30,25 +30,40 @@ class conways:
 
         self.reset(self.buff_1)
 
-    def reset(self, a):
-        self.moves = 0
-        self.buff_1 = a
+    def reset(self, a, /, offset = True):
+        if offset:
+            self.moves = 0
+            self.buff_1 = a
 
-        self.buff[0] = self.buff_1
-        self.buff[1] = self.buff_2
-        for y in range(1, self.y_bound):
-            for x in range(1, self.x_bound):
-                if self.buff_1[y, x]:
-                    self.moves += 1
-        #reset padding
-        for x in range(self.x_size):
-            self.buff_1[0, x] = False
-            self.buff_1[x, 0] = False
-            self.buff_1[self.y_bound, x] = False
-            self.buff_1[x, self.y_bound] = False
+            self.buff[0] = self.buff_1
+            self.buff[1] = self.buff_2
+            for y in range(1, self.y_bound):
+                for x in range(1, self.x_bound):
+                    if self.buff_1[y, x]:
+                        self.moves += 1
+            #reset padding
+            for x in range(self.x_size):
+                self.buff_1[0, x] = False
+                self.buff_1[x, 0] = False
+                self.buff_1[self.y_bound, x] = False
+                self.buff_1[x, self.y_bound] = False
 
 
-        self.buff_2 = np.copy(self.buff_1)
+            self.buff_2 = np.copy(self.buff_1)
+        else:
+            self.moves = 0
+            #self.buff_1 = a
+
+            self.buff[0] = self.buff_1
+            self.buff[1] = self.buff_2
+            for y in range(1, self.y_bound):
+                for x in range(1, self.x_bound):
+                    self.buff_1[y, x] = a[y-1, x-1]
+                    if self.buff_1[y, x]:
+                        self.moves += 1
+
+
+            self.buff_2 = np.copy(self.buff_1)
 
 
     def run(self):
@@ -119,29 +134,29 @@ class conways:
                     return float('inf')
                 else:
                     return i**2 - self.moves
-        return self.max_it**2 - self.moves
+        return  self.max_it**2 - self.moves
 
 
 
 
-test = conways(size = 512, max_it=1000)
-print(test.run())
-
-x = np.zeros(shape=(514, 514), dtype=bool)
-x[100, 100] = True
-x[100, 101] = True
-x[101, 100] = True
-x[101, 101] = False
-
-
-test.reset(x)
-print(test.run())
-
-x[100, 100] = True
-x[100, 101] = True
-x[101, 100] = True
-x[101, 101] = True
-
-
-test.reset(x)
-print(test.run())
+#test = conways(size = 512, max_it=1000)
+#print(test.run())
+#
+#x = np.zeros(shape=(514, 514), dtype=bool)
+#x[100, 100] = True
+#x[100, 101] = True
+#x[101, 100] = True
+#x[101, 101] = False
+#
+#
+#test.reset(x)
+#print(test.run())
+#
+#x[100, 100] = True
+#x[100, 101] = True
+#x[101, 100] = True
+#x[101, 101] = True
+#
+#
+#test.reset(x)
+#print(test.run())
