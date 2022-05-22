@@ -133,8 +133,8 @@ class conways:
                 if alive:
                     return float('inf')
                 else:
-                    return i**2 - self.moves
-        return  self.max_it**2 - self.moves
+                    return i**2 + self.moves
+        return  self.max_it**2 + self.moves
 
 
 
