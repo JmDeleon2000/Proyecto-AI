@@ -7,7 +7,7 @@ pygame.init()
 class conways:
     def __init__(self, size = 100, max_it = 100):
         self.max_it = max_it
-        screen_size = (1024, 1024)
+        screen_size = (512, 512)
         self.liveCellColor = (255, 255, 255)
         self.deadCellColor = (25, 25, 25)
         self.screen = pygame.display.set_mode(screen_size)
@@ -113,7 +113,7 @@ class conways:
 
             if self.render:
                 pygame.display.flip()
-            #time.sleep(1)
+            time.sleep(1)
             if (self.buff[0] is self.buff_1):
                 self.buff[0] = self.buff_2
                 self.buff[1] = self.buff_1
@@ -141,24 +141,3 @@ class conways:
 
 
 
-#test = conways(size = 512, max_it=1000)
-#print(test.run())
-#
-#x = np.zeros(shape=(514, 514), dtype=bool)
-#x[100, 100] = True
-#x[100, 101] = True
-#x[101, 100] = True
-#x[101, 101] = False
-#
-#
-#test.reset(x)
-#print(test.run())
-#
-#x[100, 100] = True
-#x[100, 101] = True
-#x[101, 100] = True
-#x[101, 101] = True
-#
-#
-#test.reset(x)
-#print(test.run())
